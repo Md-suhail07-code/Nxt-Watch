@@ -20,14 +20,15 @@ const apiStatusConstants = {
 }
 
 const VideoItemDetails = () => {
+  // Normalize ReactPlayer import: some bundlers expose it as { default: Component }
+  const Player = ReactPlayer && ReactPlayer.default ? ReactPlayer.default : ReactPlayer
+  // Debugging: log what we received to help identify invalid element types
   const [videoItem, setVideoItem] = useState({})
   const [apiStatus, setApiStatus] = useState(apiStatusConstants.initial)
   const [activeButton, setActiveButtonState] = useState('') 
   
   const { id } = useParams() 
   const { isDark, savedVideos, toggleSaveVideo } = useContext(NxtWatchContext)
-
-  // --- API Fetch Logic (No change, logic is sound) ---
 
   const getVideoItemDetails = useCallback(async () => {
     setApiStatus(apiStatusConstants.loading)
@@ -109,13 +110,15 @@ const VideoItemDetails = () => {
         
         {/* Video Player */}
         <div className="relative pt-[56.25%] mb-5 w-full">
-          <ReactPlayer 
-            url={videoUrl} 
-            controls 
-            width="100%" 
-            height="100%" 
-            className="absolute top-0 left-0"
-          />
+          {Player ? (
+            <Player
+              url={videoUrl}
+              controls
+              width="100%"
+              height="100%"
+              className="absolute top-0 left-0"
+            />
+          ) : null}
         </div>
 
         <p className="text-xl font-semibold m-0 mb-4 sm:text-2xl">{title}</p>
