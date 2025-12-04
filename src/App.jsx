@@ -71,7 +71,7 @@ const App = () => {
         toggleBtn: toggleBtn,
       }}
     >
-      <RouterProvider basename="/nxt-watch-fbzd.onrender.com" router={router} />
+      <RouterProvider basename="https://nxt-watch-fbzd.onrender.com" router={router} />
     </NxtWatchContext.Provider>
   )
 }
